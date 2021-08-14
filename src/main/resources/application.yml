@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/courses?createDatabaseIfNotExist=true
+    username: marlon
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
