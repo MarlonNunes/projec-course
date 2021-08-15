@@ -37,6 +37,7 @@ public class StudentService implements UserDetailsService {
     }
 
     public Student save(Student student){
+
         return studentRepository.save(student);
     }
 
@@ -45,6 +46,7 @@ public class StudentService implements UserDetailsService {
     }
 
     public Student Replace (Student student){
+
         return studentRepository.save(student);
     }
 }
