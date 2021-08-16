@@ -20,6 +20,7 @@ import java.util.Optional;
 public class StudentService implements UserDetailsService {
 
     private final StudentRepository studentRepository;
+    private final InformationStudentService informationStudentService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -37,11 +38,12 @@ public class StudentService implements UserDetailsService {
     }
 
     public Student save(Student student){
-
+        informationStudentService.save(student);
         return studentRepository.save(student);
     }
 
     public void delete(Integer id){
+
         studentRepository.deleteById(id);
     }
 
