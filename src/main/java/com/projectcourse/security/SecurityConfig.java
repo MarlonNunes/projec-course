@@ -2,6 +2,7 @@ package com.projectcourse.security;
 
 import com.projectcourse.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
+@Log4j2
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final StudentService studentService;
@@ -27,6 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        auth.inMemoryAuthentication()
+                .withUser("Marlon")
+                .password(passwordEncoder.encode("Marlon"))
+                .roles("ADMIN");
 
         auth.userDetailsService(studentService).passwordEncoder(passwordEncoder);
     }

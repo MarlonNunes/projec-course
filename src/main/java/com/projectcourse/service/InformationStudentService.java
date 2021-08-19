@@ -3,6 +3,7 @@ package com.projectcourse.service;
 import com.projectcourse.model.InformationStudent;
 import com.projectcourse.model.Student;
 import com.projectcourse.repository.InformationStudentRepository;
+import com.projectcourse.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class InformationStudentService {
 
     private final InformationStudentRepository informationStudentRepository;
-    private final StudentService studentService;
+    private final StudentRepository studentRepository;
 
     public Student addMissing (Student student){
         InformationStudent informationStudent = informationStudentRepository.getById(student.getIdStudent());
@@ -19,7 +20,7 @@ public class InformationStudentService {
         informationStudent.setMissedClass(informationStudent.getMissedClass() + 1);
         informationStudentRepository.save(informationStudent);
 
-        return studentService.findById(informationStudent.getIdInfoStudent());
+        return studentRepository.findById(informationStudent.getIdInfoStudent()).get();
     }
 
     public Student removeMissing (Student student) {
@@ -30,7 +31,7 @@ public class InformationStudentService {
             informationStudentRepository.save(informationStudent);
         }
 
-        return studentService.findById(informationStudent.getIdInfoStudent());
+        return studentRepository.findById(informationStudent.getIdInfoStudent()).get();
     }
 
     public void save(Student sInformationStudent){

@@ -2,9 +2,9 @@ package com.projectcourse.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,9 +16,11 @@ public class Course {
 
     private String name;
 
+    @ManyToOne(cascade = CascadeType.ALL    )
     private Teacher teacher;
 
-    private List<Student> students;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Student> students = new ArrayList<>();
 
     private LocalDate startDate;
 

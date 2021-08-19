@@ -1,33 +1,34 @@
 package com.projectcourse.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.MappedSuperclass;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@MappedSuperclass
 @Data
 public class User  implements UserDetails {
 
-    @NotEmpty
+
     protected String username;
 
-    @NotEmpty
+
     protected String password;
 
-    @NotEmpty
+
     protected String nome;
 
-    @NotEmpty
+
     protected String email;
 
     protected String authorities;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -11,4 +11,5 @@ public class Administrator extends User{
 
     @Id
     private Integer idAdmin;
+
 }
