@@ -1,6 +1,8 @@
 package com.projectcourse.security;
 
+import com.projectcourse.service.AdministratorService;
 import com.projectcourse.service.StudentService;
+import com.projectcourse.service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +19,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final StudentService studentService;
 
+    private final TeacherService teacherService;
+
+    private final AdministratorService administratorService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/student/**", "/teacher/**").hasRole("USER")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -35,5 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("ADMIN");
 
         auth.userDetailsService(studentService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(teacherService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(administratorService).passwordEncoder(passwordEncoder);
     }
 }
