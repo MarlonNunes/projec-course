@@ -1,6 +1,8 @@
 package com.projectcourse.service;
 
 import com.projectcourse.model.Administrator;
+import com.projectcourse.model.Course;
+import com.projectcourse.model.Student;
 import com.projectcourse.repository.AdministratorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class AdministratorService implements UserDetailsService {
 
     private final AdministratorRepository administratorRepository;
+
+    private final CourseService courseService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -40,5 +44,9 @@ public class AdministratorService implements UserDetailsService {
 
     public Administrator replace(Administrator administrator){
         return administratorRepository.save(administrator);
+    }
+
+    public Course createCourse(Course course){
+        return  courseService.save(course);
     }
 }
