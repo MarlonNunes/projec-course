@@ -1,6 +1,7 @@
 package com.projectcourse.service;
 
 import com.projectcourse.dto.post.TeacherPostDTO;
+import com.projectcourse.dto.put.TeacherPutDTO;
 import com.projectcourse.model.Teacher;
 import com.projectcourse.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,16 @@ public class TeacherService implements UserDetailsService {
         return teacherRepository.existsById(id);
     }
 
-    public Teacher replace(Teacher teacher){
+    public Teacher replace(TeacherPutDTO teacherPutDTO){
+        Teacher teacher = Teacher.builder().idTeacher(teacherPutDTO.getIdTeacher()).name(teacherPutDTO.getName())
+                .username(teacherPutDTO.getUsername()).password(passwordEncoder.encode(teacherPutDTO.getPassword()))
+                .courses(teacherPutDTO.getCourse()).email(teacherPutDTO.getEmail()).build();
+
         return teacherRepository.save(teacher);
     }
+
+//    public Teacher findAllCoursesByTeacher(Teacher byId) {
+//
+//
+//    }
 }
