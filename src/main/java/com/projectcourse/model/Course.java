@@ -1,5 +1,7 @@
 package com.projectcourse.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
 
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 public class Course {
 
     @Id
@@ -30,6 +33,7 @@ public class Course {
 
     private LocalDate startDate;
 
+    @JsonIgnore
     private LocalDate endDate;
 
 }

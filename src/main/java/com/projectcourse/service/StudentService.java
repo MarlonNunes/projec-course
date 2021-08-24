@@ -1,9 +1,8 @@
 package com.projectcourse.service;
 
-import com.projectcourse.model.Course;
+import com.projectcourse.dto.post.StudentPostDTO;
 import com.projectcourse.model.Student;
 import com.projectcourse.repository.StudentRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,10 +42,14 @@ public class StudentService implements UserDetailsService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found"));
     }
 
-    public Student save(Student student){
-        student.setAuthorities("ROLE_USER");
-        student.setPassword(passwordEncoder.encode(student.getPassword()));
+    public Student save(StudentPostDTO studentDTO){
+
+        Student student = Student.builder().name(studentDTO.getName()).username(studentDTO.getUsername())
+                .password(passwordEncoder.encode(studentDTO.getPassword())).authorities("ROLE_STUDENT")
+                .courses(studentDTO.getCourse()).email(studentDTO.getEmail()).build();
+
         informationStudentService.save(student);
+
         return studentRepository.save(student);
     }
 

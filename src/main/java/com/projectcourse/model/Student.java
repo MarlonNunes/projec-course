@@ -1,6 +1,7 @@
 package com.projectcourse.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @Entity
+@SuperBuilder
 public class Student extends User{
 
     @Id

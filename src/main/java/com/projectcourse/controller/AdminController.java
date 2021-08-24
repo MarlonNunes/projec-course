@@ -1,5 +1,8 @@
 package com.projectcourse.controller;
 
+import com.projectcourse.dto.post.CoursePostDTO;
+import com.projectcourse.dto.post.StudentPostDTO;
+import com.projectcourse.dto.post.TeacherPostDTO;
 import com.projectcourse.model.Administrator;
 import com.projectcourse.model.Course;
 import com.projectcourse.model.Student;
@@ -25,18 +28,18 @@ public class AdminController {
     private final AdministratorService adminService;
 
     @PostMapping(value = "/createCourse")
-    public ResponseEntity<Course> createCourse(@RequestBody Course course){
-       return ResponseEntity.ok(courseService.save(course));
+    public ResponseEntity<Course> createCourse(@RequestBody CoursePostDTO coursePostDTO){
+       return ResponseEntity.ok(courseService.save(coursePostDTO));
     }
 
     @PostMapping(value = "/createTeacher")
-    public ResponseEntity<Teacher> createTeacher(@RequestBody Teacher teacher){
-        return ResponseEntity.ok(teacherService.save(teacher));
+    public ResponseEntity<Teacher> createTeacher(@RequestBody TeacherPostDTO teacherDTO){
+        return ResponseEntity.ok(teacherService.save(teacherDTO));
     }
 
     @PostMapping (value = "/createStudent")
-    public ResponseEntity<Student> createStudent(@RequestBody Student student){
-        return ResponseEntity.ok(studentService.save(student));
+    public ResponseEntity<Student> createStudent(@RequestBody StudentPostDTO studentDTO){
+        return ResponseEntity.ok(studentService.save(studentDTO));
     }
 
     @PostMapping (value = "/createAdmin")

@@ -1,7 +1,7 @@
 package com.projectcourse.service;
 
+import com.projectcourse.dto.post.CoursePostDTO;
 import com.projectcourse.model.Course;
-import com.projectcourse.model.Student;
 import com.projectcourse.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,8 +27,10 @@ public class CourseService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
     }
 
-    public Course save(Course course){
-        course.setStartDate(LocalDate.now());
+    public Course save(CoursePostDTO coursePostDTO){
+        Course course = Course.builder().name(coursePostDTO.getName()).teacher(coursePostDTO.getTeacher())
+            .students(coursePostDTO.getStudents()).startDate(LocalDate.now()).build();
+
         return courseRepository.save(course);
     }
 

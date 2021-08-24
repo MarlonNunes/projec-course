@@ -1,5 +1,6 @@
 package com.projectcourse.service;
 
+import com.projectcourse.dto.post.TeacherPostDTO;
 import com.projectcourse.model.Teacher;
 import com.projectcourse.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,9 +40,11 @@ public class TeacherService implements UserDetailsService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Teacher Not Found"));
     }
 
-    public Teacher save(Teacher teacher){
-        teacher.setAuthorities("ROLE_USER");
-        teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
+    public Teacher save(TeacherPostDTO teacherDTO){
+        Teacher teacher = Teacher.builder().name(teacherDTO.getName()).username(teacherDTO.getUsername())
+                        .password(passwordEncoder.encode(teacherDTO.getPassword())).authorities("ROLE_TEACHER")
+                        .courses(teacherDTO.getCourse()).email(teacherDTO.getEmail()).build();
+
         return teacherRepository.save(teacher);
     }
 

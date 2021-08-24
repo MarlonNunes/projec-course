@@ -1,7 +1,10 @@
 package com.projectcourse.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,20 +16,23 @@ import java.util.stream.Collectors;
 
 @MappedSuperclass
 @Data
+@SuperBuilder
 public class User  implements UserDetails {
 
 
     protected String username;
 
 
+    @JsonIgnore
     protected String password;
 
 
-    protected String nome;
+    protected String name;
 
 
     protected String email;
 
+    @JsonIgnore
     protected String authorities;
 
 
