@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class AdministratorService implements UserDetailsService {
 
     private final AdministratorRepository administratorRepository;
+
+    PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,12 +36,17 @@ public class AdministratorService implements UserDetailsService {
     }
 
     public Administrator save(Administrator administrator){
-
+        administrator.setPassword(passwordEncoder.encode(administrator.getPassword()));
+        administrator.setAuthorities("ROLE_ADMIN");
         return administratorRepository.save(administrator);
     }
 
     public void delete (Integer id){
          administratorRepository.deleteById(id);
+    }
+
+    public boolean verifyExists(Integer id){
+        return administratorRepository.existsById(id);
     }
 
     public Administrator replace(Administrator administrator){

@@ -36,6 +36,10 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
+    public boolean verifyExists(Integer id){
+        return courseRepository.existsById(id);
+    }
+
     public Course Replace (Course course){
 
         return courseRepository.save(course);

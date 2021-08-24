@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,6 +20,9 @@ import java.util.Optional;
 public class TeacherService implements UserDetailsService {
 
     private final TeacherRepository teacherRepository;
+
+
+    PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,11 +41,16 @@ public class TeacherService implements UserDetailsService {
 
     public Teacher save(Teacher teacher){
         teacher.setAuthorities("ROLE_USER");
+        teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
         return teacherRepository.save(teacher);
     }
 
     public void delete(Integer id){
         teacherRepository.deleteById(id);
+    }
+
+    public boolean verifyExists(Integer id){
+        return teacherRepository.existsById(id);
     }
 
     public Teacher replace(Teacher teacher){

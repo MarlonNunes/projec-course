@@ -55,6 +55,10 @@ public class StudentService implements UserDetailsService {
         studentRepository.deleteById(id);
     }
 
+    public boolean verifyExists(Integer id){
+        return studentRepository.existsById(id);
+    }
+
     public Student Replace (Student student){
 
         return studentRepository.save(student);
