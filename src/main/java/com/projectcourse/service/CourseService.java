@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,7 +28,7 @@ public class CourseService {
     }
 
     public Course save(Course course){
-
+        course.setStartDate(LocalDate.now());
         return courseRepository.save(course);
     }
 

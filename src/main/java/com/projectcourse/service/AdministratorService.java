@@ -20,8 +20,6 @@ public class AdministratorService implements UserDetailsService {
 
     private final AdministratorRepository administratorRepository;
 
-    private final CourseService courseService;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return Optional.ofNullable(administratorRepository.findByUsername(username))
@@ -46,7 +44,4 @@ public class AdministratorService implements UserDetailsService {
         return administratorRepository.save(administrator);
     }
 
-    public Course createCourse(Course course){
-        return  courseService.save(course);
-    }
 }

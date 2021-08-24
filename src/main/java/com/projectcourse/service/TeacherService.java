@@ -35,6 +35,7 @@ public class TeacherService implements UserDetailsService {
     }
 
     public Teacher save(Teacher teacher){
+        teacher.setAuthorities("ROLE_USER");
         return teacherRepository.save(teacher);
     }
 

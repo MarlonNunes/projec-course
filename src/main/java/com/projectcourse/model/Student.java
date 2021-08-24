@@ -2,10 +2,7 @@ package com.projectcourse.model;
 
 import lombok.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +13,10 @@ import java.util.List;
 public class Student extends User{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idStudent;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "students")
     private List<Course> courses = new ArrayList<>();
 
 
