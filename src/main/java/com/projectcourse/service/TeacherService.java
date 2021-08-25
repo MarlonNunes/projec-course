@@ -5,7 +5,9 @@ import com.projectcourse.dto.put.TeacherPutDTO;
 import com.projectcourse.model.Teacher;
 import com.projectcourse.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class TeacherService implements UserDetailsService {
 
     private final TeacherRepository teacherRepository;
@@ -60,13 +63,12 @@ public class TeacherService implements UserDetailsService {
     public Teacher replace(TeacherPutDTO teacherPutDTO){
         Teacher teacher = Teacher.builder().idTeacher(teacherPutDTO.getIdTeacher()).name(teacherPutDTO.getName())
                 .username(teacherPutDTO.getUsername()).password(passwordEncoder.encode(teacherPutDTO.getPassword()))
-                .courses(teacherPutDTO.getCourse()).email(teacherPutDTO.getEmail()).build();
-
+                .courses(teacherPutDTO.getCourse()).email(teacherPutDTO.getEmail()).authorities("ROLE_TEACHER").build();
+        log.info(teacher);
         return teacherRepository.save(teacher);
     }
 
-//    public Teacher findAllCoursesByTeacher(Teacher byId) {
-//
-//
-//    }
+    public List<Teacher> findAll() {
+        return teacherRepository.findAll();
+    }
 }

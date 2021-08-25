@@ -35,6 +35,10 @@ public class User  implements UserDetails {
     @JsonIgnore
     protected String authorities;
 
+    public User(){
+
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

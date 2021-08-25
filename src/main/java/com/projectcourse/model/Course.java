@@ -1,18 +1,17 @@
 package com.projectcourse.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Generated;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity
-@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Course {
 
     @Id
@@ -21,7 +20,7 @@ public class Course {
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "idTeacher")
     private Teacher teacher;
 

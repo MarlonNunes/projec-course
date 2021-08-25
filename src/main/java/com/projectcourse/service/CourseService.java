@@ -2,7 +2,9 @@ package com.projectcourse.service;
 
 import com.projectcourse.dto.post.CoursePostDTO;
 import com.projectcourse.model.Course;
+import com.projectcourse.model.Teacher;
 import com.projectcourse.repository.CourseRepository;
+import com.projectcourse.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.List;
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    private final TeacherRepository teacherRepository;
 
     public List<Course> findAll(){
 
@@ -45,6 +48,10 @@ public class CourseService {
     public Course Replace (Course course){
 
         return courseRepository.save(course);
+    }
+
+    public List<Course> findAllCoursesByTeacher(Integer idTeacher) {
+        return teacherRepository.findById(idTeacher).get().getCourses();
     }
 }
 
