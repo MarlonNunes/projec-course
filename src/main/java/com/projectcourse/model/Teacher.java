@@ -17,7 +17,7 @@ public class Teacher extends User{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idTeacher;
 
-    @JsonIgnore
+    @JsonIgnore()
     @OneToMany(mappedBy = ("teacher"))
     private List<Course> courses;
 

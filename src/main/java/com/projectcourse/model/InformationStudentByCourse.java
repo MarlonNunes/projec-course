@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class InformationStudent {
+public class InformationStudentByCourse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +21,7 @@ public class InformationStudent {
     @JoinColumn(name = "idStudent")
     private Student student;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "idCourse")
     private Course course;
 

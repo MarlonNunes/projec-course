@@ -1,6 +1,7 @@
 package com.projectcourse.service;
 
 import com.projectcourse.dto.post.StudentPostDTO;
+import com.projectcourse.dto.put.StudentPutDTO;
 import com.projectcourse.model.Student;
 import com.projectcourse.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +63,10 @@ public class StudentService implements UserDetailsService {
         return studentRepository.existsById(id);
     }
 
-    public Student Replace (Student student){
+    public Student Replace (StudentPutDTO studentPutDTO){
+        Student student = Student.builder().idStudent(studentPutDTO.getIdStudent()).authorities("ROLE_STUDENT")
+                .courses(studentPutDTO.getCourse()).email(studentPutDTO.getEmail()).password(studentPutDTO.getPassword())
+                .username(studentPutDTO.getUsername()).name(studentPutDTO.getName()).build();
 
         return studentRepository.save(student);
     }

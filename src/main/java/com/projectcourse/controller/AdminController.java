@@ -29,6 +29,9 @@ public class AdminController {
 
     @PostMapping(value = "/createCourse")
     public ResponseEntity<Course> createCourse(@RequestBody CoursePostDTO coursePostDTO){
+       if(! teacherService.verifyExists(coursePostDTO.getTeacher().getIdTeacher())){
+           return ResponseEntity.notFound().build();
+       }
        return ResponseEntity.ok(courseService.save(coursePostDTO));
     }
 

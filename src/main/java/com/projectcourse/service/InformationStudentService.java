@@ -1,6 +1,6 @@
 package com.projectcourse.service;
 
-import com.projectcourse.model.InformationStudent;
+import com.projectcourse.model.InformationStudentByCourse;
 import com.projectcourse.model.Student;
 import com.projectcourse.repository.InformationStudentRepository;
 import com.projectcourse.repository.StudentRepository;
@@ -15,34 +15,34 @@ public class InformationStudentService {
     private final StudentRepository studentRepository;
 
     public Student addMissing (Student student){
-        InformationStudent informationStudent = informationStudentRepository.getById(student.getIdStudent());
+        InformationStudentByCourse informationStudentByCourse = informationStudentRepository.getById(student.getIdStudent());
 
-        informationStudent.setMissedClass(informationStudent.getMissedClass() + 1);
-        informationStudentRepository.save(informationStudent);
+        informationStudentByCourse.setMissedClass(informationStudentByCourse.getMissedClass() + 1);
+        informationStudentRepository.save(informationStudentByCourse);
 
-        return studentRepository.findById(informationStudent.getIdInfoStudent()).get();
+        return studentRepository.findById(informationStudentByCourse.getIdInfoStudent()).get();
     }
 
     public Student removeMissing (Student student) {
-        InformationStudent informationStudent = informationStudentRepository.getById(student.getIdStudent());
+        InformationStudentByCourse informationStudentByCourse = informationStudentRepository.getById(student.getIdStudent());
 
-        if(informationStudent.getGrade() > 0) {
-            informationStudent.setMissedClass(informationStudent.getMissedClass() - 1);
-            informationStudentRepository.save(informationStudent);
+        if(informationStudentByCourse.getGrade() > 0) {
+            informationStudentByCourse.setMissedClass(informationStudentByCourse.getMissedClass() - 1);
+            informationStudentRepository.save(informationStudentByCourse);
         }
 
-        return studentRepository.findById(informationStudent.getIdInfoStudent()).get();
+        return studentRepository.findById(informationStudentByCourse.getIdInfoStudent()).get();
     }
 
     public void save(Student sInformationStudent){
 
-        InformationStudent informationStudent = new InformationStudent();
-        informationStudent.setStudent(sInformationStudent);
-        informationStudent.setGrade(0);
-        informationStudent.setMissedClass(0);
-        informationStudent.setCourse(sInformationStudent.getCourses()
+        InformationStudentByCourse informationStudentByCourse = new InformationStudentByCourse();
+        informationStudentByCourse.setStudent(sInformationStudent);
+        informationStudentByCourse.setGrade(0);
+        informationStudentByCourse.setMissedClass(0);
+        informationStudentByCourse.setCourse(sInformationStudent.getCourses()
                 .stream().reduce((first, second) -> second).orElse(null));
 
-        informationStudentRepository.save(informationStudent);
+        informationStudentRepository.save(informationStudentByCourse);
     }
 }
