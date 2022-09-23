@@ -22,8 +22,6 @@ public class User  implements UserDetails {
 
     protected String username;
 
-
-    @JsonIgnore
     protected String password;
 
 

@@ -18,4 +18,7 @@ public class Administrator extends User{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idAdmin;
 
+    public Administrator(){
+
+    }
 }
