@@ -26,22 +26,4 @@ public class StudentController {
     public ResponseEntity<List<Student>> findAll(){
         return ResponseEntity.ok(studentService.findAll());
     }
-
-    @GetMapping(value = "/student/{idStudent}/courses")
-    public ResponseEntity<List<Course>> findAllCoursesByStudent(@PathVariable Integer idStudent){
-        if(!studentService.verifyExists(idStudent)){
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(courseService.findAllCoursesByStudent(idStudent));
-    }
-
-    @PutMapping(value = "student/replaceStudent")
-    public ResponseEntity<Student> replaceStudent(StudentPutDTO studentPutDTO){
-        if(!studentService.verifyExists(studentPutDTO.getIdStudent())){
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(studentService.Replace(studentPutDTO));
-    }
 }

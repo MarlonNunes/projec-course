@@ -16,23 +16,27 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idCourse;
+    private Integer id;
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "idTeacher")
-    private Teacher teacher;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "course_teacher",
+            joinColumns = @JoinColumn(name = "id_teacher"),
+            inverseJoinColumns = @JoinColumn( name = "id_course"))
+    private List<Teacher> teachers;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "InformationStudentByCourse",
-            joinColumns = @JoinColumn(name = "idCourse"),
-            inverseJoinColumns = @JoinColumn( name = "idStudent"))
-    private List<Student> students = new ArrayList<>();
+    @JoinTable(name = "course_student",
+            joinColumns = @JoinColumn(name = "id_student"),
+            inverseJoinColumns = @JoinColumn( name = "id_course"))
+    private List<Student> students;
+
+    @OneToMany(mappedBy = "course")
+    private List<Module> modules;
 
     private LocalDate startDate;
 
-    @JsonIgnore
     private LocalDate endDate;
 
 }

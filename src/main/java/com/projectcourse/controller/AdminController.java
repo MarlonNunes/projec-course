@@ -1,18 +1,22 @@
 package com.projectcourse.controller;
 
-import com.projectcourse.dto.post.CoursePostDTO;
-import com.projectcourse.dto.post.StudentPostDTO;
-import com.projectcourse.dto.post.TeacherPostDTO;
-import com.projectcourse.model.Administrator;
+import com.projectcourse.dto.post.*;
+import com.projectcourse.dto.response.CourseSaveResponse;
+import com.projectcourse.dto.response.ModuleSaveResponse;
+import com.projectcourse.dto.response.TeacherSaveResponse;
+import com.projectcourse.dto.response.UserResponse;
 import com.projectcourse.model.Course;
 import com.projectcourse.model.Student;
 import com.projectcourse.model.Teacher;
-import com.projectcourse.service.AdministratorService;
+import com.projectcourse.model.User;
+import com.projectcourse.service.UserService;
 import com.projectcourse.service.CourseService;
 import com.projectcourse.service.StudentService;
 import com.projectcourse.service.TeacherService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,48 +25,35 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/admin")
 public class AdminController {
 
-    private final AdministratorService administratorService;
+    private final UserService userService;
     private final CourseService courseService;
     private final TeacherService teacherService;
     private final StudentService studentService;
-    private final AdministratorService adminService;
 
     @PostMapping(value = "/createCourse")
-    public ResponseEntity<Course> createCourse(@RequestBody CoursePostDTO coursePostDTO){
-       if(! teacherService.verifyExists(coursePostDTO.getTeacher().getIdTeacher())){
-           return ResponseEntity.notFound().build();
-       }
-       return ResponseEntity.ok(courseService.save(coursePostDTO));
+    public ResponseEntity<CourseSaveResponse> createCourse(@RequestBody CourseSaveDTO courseSaveDTO){
+       return ResponseEntity.ok(courseService.save(courseSaveDTO));
+    }
+
+    @PostMapping(value = "/createModule")
+    public ResponseEntity<ModuleSaveResponse> createModule(@RequestBody ModuleSaveDTO moduleSaveDTO){
+        return ResponseEntity.ok(this.courseService.saveModule(moduleSaveDTO));
     }
 
     @PostMapping(value = "/createTeacher")
-    public ResponseEntity<Teacher> createTeacher(@RequestBody TeacherPostDTO teacherDTO){
-        return ResponseEntity.ok(teacherService.save(teacherDTO));
+    public ResponseEntity<TeacherSaveResponse> createTeacher(@RequestBody TeacherSaveDTO teacherDTO, @AuthenticationPrincipal User user){
+        return ResponseEntity.ok(teacherService.save(teacherDTO, user));
     }
 
     @PostMapping (value = "/createStudent")
-    public ResponseEntity<Student> createStudent(@RequestBody StudentPostDTO studentDTO){
+    public ResponseEntity<Student> createStudent(@RequestBody StudentSaveDTO studentDTO, @AuthenticationPrincipal User user){
         return ResponseEntity.ok(studentService.save(studentDTO));
     }
 
     @PostMapping (value = "/createAdmin")
-    public ResponseEntity<Administrator> createAdmin(@RequestBody Administrator administrator){
-        return ResponseEntity.ok(adminService.save(administrator));
+    public ResponseEntity<UserResponse> createAdmin(@RequestBody UserSaveDTO user, @AuthenticationPrincipal User userAuth){
+        return ResponseEntity.ok(userService.save(user, userAuth));
     }
-
-    @DeleteMapping(value = "/course/{id}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable Integer idCourse){
-
-        if(!courseService.verifyExists(idCourse)){
-            return ResponseEntity.notFound().build();
-        }
-
-        courseService.delete(idCourse);
-
-        return ResponseEntity.accepted().build();
-
-    }
-
 
     @DeleteMapping(value = "/teacher/{id}")
     public ResponseEntity<Void> deleteTeacher(@PathVariable Integer idTeacher){
@@ -86,13 +77,13 @@ public class AdminController {
         return ResponseEntity.accepted().build();
     }
 
-    @DeleteMapping(value = "/administrator/{id}")
+    @DeleteMapping(value = "/user/{id}")
     public ResponseEntity<Void> deleteAdmin(@PathVariable Integer idAdmin){
-        if(!adminService.verifyExists(idAdmin)){
+        if(!userService.verifyExists(idAdmin)){
             return ResponseEntity.notFound().build();
         }
 
-        adminService.delete(idAdmin);
+        userService.delete(idAdmin);
 
         return ResponseEntity.accepted().build();
     }

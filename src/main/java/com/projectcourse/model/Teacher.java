@@ -9,23 +9,20 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@SuperBuilder
 @Data
-public class Teacher extends User{
+public class Teacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idTeacher;
+    private Integer id;
 
-    @JsonIgnore()
-    @OneToMany(mappedBy = ("teacher"))
+    @ManyToMany(mappedBy = "teachers")
     private List<Course> courses;
 
-    public Teacher (){
-        super();
+    @OneToMany(mappedBy = "teacher")
+    private List<Module> modules;
 
-    }
-
-
-
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_user")
+    private User user;
 }

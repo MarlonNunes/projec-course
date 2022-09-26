@@ -9,21 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@SuperBuilder
 @Data
-public class Student extends User{
+public class Student{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idStudent;
+    private Integer id;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "students")
-    private List<Course> courses = new ArrayList<>();
+    private List<Course> courses;
 
-    public Student(){
-        super();
-    }
+    @ManyToMany(mappedBy = "students")
+    private List<Module> modules;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_user")
+    private User user;
 
 }
 

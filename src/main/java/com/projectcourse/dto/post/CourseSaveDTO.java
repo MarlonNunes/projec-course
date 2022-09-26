@@ -5,17 +5,19 @@ import com.projectcourse.model.Student;
 import com.projectcourse.model.Teacher;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class CoursePostDTO {
+public class CourseSaveDTO {
+
+    private Integer id;
 
     private String name;
 
-    private Teacher teacher;
+    private LocalDate startDate;
 
-    private List<Student> students = new ArrayList<>();
-
+    private LocalDate endDate;
 
 }

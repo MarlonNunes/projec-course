@@ -3,16 +3,16 @@ package com.projectcourse.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.projectcourse.model.User;
-import com.projectcourse.repository.TeacherRepository;
-import com.projectcourse.service.AdministratorService;
 import com.projectcourse.service.StudentService;
 import com.projectcourse.service.TeacherService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.projectcourse.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,15 +26,13 @@ public class JWTValidateFilter extends BasicAuthenticationFilter {
     public static final String PREFIX_ATTRIBUTE = "Bearer ";
 
     private TeacherService teacherService;
-    private AdministratorService adminService;
+    private UserService userService;
     private StudentService studentService;
 
-    public JWTValidateFilter(AuthenticationManager authenticationManager, TeacherService teacherService,
-                             AdministratorService adminService, StudentService studentService) {
+    public JWTValidateFilter(AuthenticationManager authenticationManager,
+                             UserService userService) {
         super(authenticationManager);
-        this.teacherService = teacherService;
-        this.studentService = studentService;
-        this.adminService = adminService;
+        this.userService = userService;
     }
 
     @Override
@@ -59,13 +57,12 @@ public class JWTValidateFilter extends BasicAuthenticationFilter {
                 .verify(token)
                 .getSubject();
 
-        System.out.println(user);
         if(user == null){
             return null;
         }
 
-        UserDetails userDetails = this.teacherService.loadUserByUsername(user);
+        User userDetails = this.userService.loadUserByUsername(user);
 
-        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 }
